@@ -1,0 +1,54 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid90;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
+    <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
+    <FileVersion>$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
+    
+    <Title>NLog.Targets.MauiLog</Title>
+    <Company>NLog</Company>
+    <Description>NLog MauiLog Target for writing to Apple Unified Logging / Android.Util.Log for LogCat</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/NLog/NLog.Targets.MauiLog.git</RepositoryUrl>
+    <PackageTags>Maui;Xamarin;Forms;Android;MonoDroid;MacOS;iOS;LogCat;OSLog;NSLog;NLog;logging;log</PackageTags>
+    <PackageProjectUrl>https://github.com/NLog/NLog.Targets.MauiLog</PackageProjectUrl>
+    <PackageIcon>N.png</PackageIcon>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageReleaseNotes>
+- Initial Release
+    </PackageReleaseNotes>
+
+    <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
+    <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
+  </Target>
+  <ItemGroup>
+    <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'MonoAndroid90' Or '$(TargetFramework)' == 'net6.0-android' ">
+    <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' Or '$(TargetFramework)' == 'net6.0-ios' Or '$(TargetFramework)' == 'net6.0-macos' Or '$(TargetFramework)' == 'net6.0-maccatalyst' ">
+    <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' ">
+    <Reference Include="netstandard" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.7.15" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

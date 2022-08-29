@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EA9503EA-0938-497B-ACBF-5907B66D56A1}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		global.json = global.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLog.Targets.MauiLog", "src\NLog.Targets.MauiLog\NLog.Targets.MauiLog.csproj", "{F7C81AB8-6833-449D-80E3-68CEC129E692}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BC71581-3BC8-4C8E-93A8-8102B0C953E1}
+	EndGlobalSection
+EndGlobal
