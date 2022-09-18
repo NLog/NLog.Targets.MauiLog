@@ -1,7 +1,7 @@
 # NLog.Targets.MauiLog
 NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 
-- Apple iOS / MacOS - Unified Logging (replacement of print and NSLog) 
+- Apple iOS / MacOS - Unified Logging OSLog (replacement of print and NSLog) 
 - Android - Android.Util.Log / LogCat
 - NetStandard - System.Diagnostics.Debugger.Log
 
