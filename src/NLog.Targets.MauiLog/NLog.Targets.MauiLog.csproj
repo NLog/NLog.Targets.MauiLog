@@ -36,10 +36,13 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'MonoAndroid90' Or '$(TargetFramework)' == 'net6.0-android' ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
+    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' Or '$(TargetFramework)' == 'net6.0-ios' Or '$(TargetFramework)' == 'net6.0-macos' Or '$(TargetFramework)' == 'net6.0-maccatalyst' ">
     <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
+    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.12</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' ">
