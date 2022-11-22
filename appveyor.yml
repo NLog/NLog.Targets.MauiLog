@@ -1,5 +1,5 @@
 version: 1.0.0.{build}
-image: Visual Studio 2022
+image: Previous Visual Studio 2022
 configuration: Release
 platform: Any CPU
 build_script:
