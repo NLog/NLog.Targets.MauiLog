@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">netstandard2.0;net461</TargetFrameworks>
     <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid90;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>1.0.2</VersionPrefix>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -19,8 +19,8 @@
     <PackageIcon>N.png</PackageIcon>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReleaseNotes>
-- Added SupportedOSPlatformVersion = 10 for iOS
-- Added SupportedOSPlatformVersion = 21 for Android
+- Added PreserveAttribute
+- Added ILLink.Descriptors.xml
     </PackageReleaseNotes>
 
     <IsPackable>true</IsPackable>
@@ -31,6 +31,13 @@
   <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
     <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
   </Target>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ILLink.Descriptors.xml">
+      <LogicalName>ILLink.Descriptors.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
   </ItemGroup>
