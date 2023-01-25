@@ -30,7 +30,7 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 
     ```xml
     <targets>
-        <target name="mauilog" xsi:type="MauiLog" />
+        <target name="mauilog" type="MauiLog" />
     </targets>
     <rules>
         <logger minLevel="Info" writeTo="mauilog" />
