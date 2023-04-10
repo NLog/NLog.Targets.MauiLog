@@ -2,6 +2,7 @@
 
 using System;
 using NLog.Layouts;
+using NLog.Targets.MauiLog;
 
 namespace NLog.Targets
 {
@@ -9,6 +10,7 @@ namespace NLog.Targets
     /// Output target for Android.Util.Log
     /// </summary>
     [Target("MauiLog")]
+    [Preserve(AllMembers = true)]
     public class AndroidUtilLogTarget : TargetWithLayoutHeaderAndFooter
     {
         /// <summary>
