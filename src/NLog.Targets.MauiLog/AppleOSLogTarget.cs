@@ -2,7 +2,6 @@
 
 using System;
 using NLog.Layouts;
-using NLog.Targets.MauiLog;
 
 namespace NLog.Targets
 {
@@ -10,7 +9,9 @@ namespace NLog.Targets
     /// Output target for Apple Unified Logging
     /// </summary>
     [Target("MauiLog")]
-    [Preserve(AllMembers = true)]
+#if !NET
+    [Foundation.Preserve (AllMembers = true)]
+#endif
     public class AppleOSLogTarget : TargetWithLayoutHeaderAndFooter
     {
         /// <summary>
