@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLog.Targets.MauiLog", "src\NLog.Targets.MauiLog\NLog.Targets.MauiLog.csproj", "{F7C81AB8-6833-449D-80E3-68CEC129E692}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{76234569-98B6-42D6-AB8A-8346A80EBD32}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiApp2", "examples\MauiApp2\MauiApp2.csproj", "{F5DDCB81-5475-45A8-84B9-2F9880965288}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,9 +26,16 @@ Global
 		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7C81AB8-6833-449D-80E3-68CEC129E692}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DDCB81-5475-45A8-84B9-2F9880965288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DDCB81-5475-45A8-84B9-2F9880965288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DDCB81-5475-45A8-84B9-2F9880965288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DDCB81-5475-45A8-84B9-2F9880965288}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F5DDCB81-5475-45A8-84B9-2F9880965288} = {76234569-98B6-42D6-AB8A-8346A80EBD32}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1BC71581-3BC8-4C8E-93A8-8102B0C953E1}
