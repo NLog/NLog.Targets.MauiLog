@@ -8,36 +8,66 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 [![Version](https://badge.fury.io/nu/NLog.Targets.MauiLog.svg)](https://www.nuget.org/packages/NLog.Targets.MauiLog)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-targets-mauilog/master.svg)](https://ci.appveyor.com/project/nlog/nlog-targets-mauilog/branch/master)
 
-### How to use
+### How to setup NLog in MAUI
 
-1) Install the package
+1) Install the NLog packages
 
-    `Install-Package NLog.Targets.MauiLog` or in your csproj:
+   - `Install-Package NLog.Targets.MauiLog` 
+   - `Install-Package NLog.Extensions.Logging` 
+    
+   or in your csproj:
 
     ```xml
     <PackageReference Include="NLog.Targets.MauiLog" Version="1.*" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.*" />
     ```
 
-2) Add to your nlog.config:
+2) Add NLog to the MauiApp
 
-    ```xml
-    <extensions>
-        <add assembly="NLog.Targets.MauiLog"/>
-    </extensions>
-    ```
+   Update `MauiProgram.cs` to include NLog as Logging Provider: 
+   ```csharp
+   var builder = MauiApp.CreateBuilder();
 
-3) Use the target "mauilog" in your nlog.config
+   // Add NLog for Logging
+   builder.Logging.ClearProviders();
+   builder.Logging.AddNLog();
+   ```
 
-    ```xml
-    <targets>
-        <target name="mauilog" type="MauiLog" />
-    </targets>
-    <rules>
-        <logger minLevel="Info" writeTo="mauilog" />
-    </rules>
-    ```
+   If getting compiler errors with unknown methods, then update `using`-section:
+   ```csharp
+   using Microsoft.Extensions.Logging;
+   using NLog;
+   using NLog.Extensions.Logging;
+   ```
+
+3) Load NLog configuration for logging
+
+   Add the `NLog.config` into the Application-project as assembly-resource (`Build Action` = `embedded resource`), and load like this:
+   ```csharp
+   NLog.LogManager.Setup().RegisterMauiLog().LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
+   ```
+   Alternative setup NLog configuration using [fluent-API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API):
+   ```csharp
+   var logger = NLog.LogManager.Setup().RegisterMauiLog()
+                    .LoadConfiguration(c => c.ForLogger(NLog.LogLevel.Debug).WriteToMauiLog())
+                    .GetCurrentClassLogger();
+   ```
 
 ### Configuration options for MAUI Log Target
 
 - **Layout** - LogEvent message layout
 - **Category** - LogEvent category layout (optional)
+
+```xml
+<nlog>
+<extensions>
+    <add assembly="NLog.Targets.MauiLog" />
+</extensions>
+<targets>
+    <target name="mauilog" type="MauiLog" />
+</targets>
+<rules>
+    <logger minLevel="Info" writeTo="mauilog" />
+</rules>
+</nlog>
+```
