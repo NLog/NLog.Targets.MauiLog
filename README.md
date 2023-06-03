@@ -10,7 +10,7 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 
 ### How to setup NLog in MAUI
 
-1) Install the NLog packages
+1) **Install the NLog packages**
 
    - `Install-Package NLog.Targets.MauiLog` 
    - `Install-Package NLog.Extensions.Logging` 
@@ -22,7 +22,7 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
     <PackageReference Include="NLog.Extensions.Logging" Version="5.*" />
     ```
 
-2) Add NLog to the MauiApp
+2) **Add NLog to the MauiApp**
 
    Update `MauiProgram.cs` to include NLog as Logging Provider: 
    ```csharp
@@ -40,7 +40,7 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
    using NLog.Extensions.Logging;
    ```
 
-3) Load NLog configuration for logging
+3) **Load NLog configuration for logging**
 
    Add the `NLog.config` into the Application-project as assembly-resource (`Build Action` = `embedded resource`), and load like this:
    ```csharp
