@@ -68,7 +68,7 @@ Example `NLog.config`-file:
     <target name="mauilog" type="MauiLog" />
 </targets>
 <rules>
-    <logger minLevel="Info" writeTo="mauilog" />
+    <logger name="*" minLevel="Info" writeTo="mauilog" />
 </rules>
 </nlog>
 ```
