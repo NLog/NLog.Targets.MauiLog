@@ -28,6 +28,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable>true</IsTrimmable>
+    <CheckEolWorkloads>false</CheckEolWorkloads>
   </PropertyGroup>
 
   <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
@@ -52,7 +53,7 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' Or '$(TargetFramework)' == 'net6.0-ios' Or '$(TargetFramework)' == 'net6.0-macos' Or '$(TargetFramework)' == 'net6.0-maccatalyst' ">
     <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.12</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.14</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' ">
