@@ -73,38 +73,4 @@ Example `NLog.config`-file:
 </nlog>
 ```
 
-### Logging Unhandled Exceptions
-
-The MAUI platform have failed to provide an unified way of tracking unhandled exceptions.
-
-The normal way would be to hook into `AppDomain.CurrentDomain.UnhandledException`, but extra logic needed for iOS and Android:
-
-Exceptions on iOS flows through AppDomain.CurrentDomain.UnhandledException, but one must set [UnwindNativeCode](https://github.com/xamarin/xamarin-macios/issues/15252):
-```csharp
-ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
-{
-    args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
-};
-```
-
-Exceptions on Android only flows through `Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser`:
-```csharp
-Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-{
-    // Log unhandled args.Exception
-};
-```
-
-NLog.Targets.MauiLog includes unified method to setup `UnhandledExceptionEventHandler`:
-```csharp
-NLog.LogManager.Setup().RegisterMauiLog((sender, ex) => {
-    NLog.LogManager.GetLogger("Application").Fatal(ex, "Unhandled Exception");
-});
-```
-
-One can also consider monitoring unobserved task exceptions:
-```csharp
-TaskScheduler.UnobservedTaskException += (sender, args) => {
-    NLog.LogManager.GetLogger("Application").Error(args.Exception, "Unobserved Task Exception");
-};
-```
+See also [Logging Unhandled Exceptions](https://github.com/NLog/NLog.Targets.MauiLog/wiki/Logging-Unhandled-Exceptions)
