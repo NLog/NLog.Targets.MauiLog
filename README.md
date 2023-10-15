@@ -44,7 +44,8 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 
    Add the `NLog.config`-file into the Application-project as assembly-resource (`Build Action` = `embedded resource`), and load like this:
    ```csharp
-   NLog.LogManager.Setup().RegisterMauiLog().LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
+   NLog.LogManager.Setup().RegisterMauiLog()
+       .LoadConfigurationFromAssemblyResource(typeof(App).Assembly);
    ```
    Alternative setup NLog configuration using [fluent-API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API):
    ```csharp
