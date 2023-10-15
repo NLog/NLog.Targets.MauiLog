@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">netstandard2.0;net461</TargetFrameworks>
     <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid90;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
-    <VersionPrefix>5.2.0</VersionPrefix>
+    <VersionPrefix>5.2.1</VersionPrefix>
     <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
     <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -18,9 +18,11 @@
     <PackageProjectUrl>https://github.com/NLog/NLog.Targets.MauiLog</PackageProjectUrl>
     <PackageIcon>N.png</PackageIcon>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Updated NLog v5.2
-- Introduced RegisterMauiLog() extension method for LogManager.Setup()
+- Added support for UnhandledExceptionEventHandler in RegisterMauiLog
+- Updated to NLog v5.2.2
+- Added nuget-package README.md
     </PackageReleaseNotes>
 
     <IsPackable>true</IsPackable>
@@ -31,10 +33,6 @@
     <CheckEolWorkloads>false</CheckEolWorkloads>
   </PropertyGroup>
 
-  <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
-    <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
-  </Target>
-
   <ItemGroup>
     <EmbeddedResource Include="ILLink.Descriptors.xml">
       <LogicalName>ILLink.Descriptors.xml</LogicalName>
@@ -42,8 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="" />
     <None Include="N.png" Pack="true" PackagePath="" Visible="false" />
   </ItemGroup>
+  <Target Name="DownloadMissingContent" BeforeTargets="GenerateNuspec">
+    <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
+  </Target>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'MonoAndroid90' Or '$(TargetFramework)' == 'net6.0-android' ">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
@@ -61,7 +63,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.0" />
+    <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
