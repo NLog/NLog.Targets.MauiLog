@@ -23,6 +23,8 @@
 - Added support for UnhandledExceptionEventHandler in RegisterMauiLog
 - Updated to NLog v5.2.2
 - Added nuget-package README.md
+
+See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
 
     <IsPackable>true</IsPackable>
