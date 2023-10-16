@@ -8,7 +8,7 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 [![Version](https://badge.fury.io/nu/NLog.Targets.MauiLog.svg)](https://www.nuget.org/packages/NLog.Targets.MauiLog)
 [![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-targets-mauilog/master.svg)](https://ci.appveyor.com/project/nlog/nlog-targets-mauilog/branch/master)
 
-### How to setup NLog in MAUI
+## How to setup NLog in MAUI
 
 1) **Install the NLog packages**
 
@@ -54,12 +54,13 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
                     .GetCurrentClassLogger();
    ```
 
-### Configuration options for MAUI Log Target
+## Configuration options for MAUI Log Target
 
 - **Layout** - LogEvent message layout
 - **Category** - LogEvent category layout (optional)
 
 Example `NLog.config`-file:
+
 ```xml
 <nlog>
 <extensions>
