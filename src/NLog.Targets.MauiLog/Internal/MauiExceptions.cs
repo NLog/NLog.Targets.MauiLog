@@ -20,50 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace NLog.Targets.MauiLog
+using System.Diagnostics;
+
+namespace NLog.Targets;
+
+using System;
+
+internal static class MauiExceptions
 {
-    using System;
+    // We'll route all unhandled exceptions through this one event.
+    public static event UnhandledExceptionEventHandler UnhandledException;
 
-    internal static class MauiExceptions
+    static MauiExceptions()
     {
-        // We'll route all unhandled exceptions through this one event.
-        public static event UnhandledExceptionEventHandler UnhandledException;
+        // This is the normal event expected, and should still be used.
+        // It will fire for exceptions from iOS and Mac Catalyst,
+        // and for exceptions on background threads from WinUI 3.
 
-        static MauiExceptions()
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
         {
-            // This is the normal event expected, and should still be used.
-            // It will fire for exceptions from iOS and Mac Catalyst,
-            // and for exceptions on background threads from WinUI 3.
+            UnhandledException?.Invoke(sender, args);
+        };
 
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
-            {
-                UnhandledException?.Invoke(sender, args);
-            };
-
-#if __APPLE__
-
-            // For iOS and Mac Catalyst
-            // Exceptions will flow through AppDomain.CurrentDomain.UnhandledException,
-            // but we need to set UnwindNativeCode to get it to work correctly. 
-            // 
-            // See: https://github.com/xamarin/xamarin-macios/issues/15252
+#if __ANDROID__
+	    // For Android:
+	    // All exceptions will flow through Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser,
+	    // and NOT through AppDomain.CurrentDomain.UnhandledException
+	    if (!OperatingSystem.IsAndroidVersionAtLeast(21))
+		    return;
+	    Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
+	    {
+		    UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
+	    };
+#elif __APPLE__
+        // For iOS and Mac Catalyst
+        // Exceptions will flow through AppDomain.CurrentDomain.UnhandledException,
+        // but we need to set UnwindNativeCode to get it to work correctly. 
+        // 
+        // See: https://github.com/xamarin/xamarin-macios/issues/15252
         
-            ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
-            {
-                args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
-            };
-
-#elif __ANDROID__
-
-            // For Android:
-            // All exceptions will flow through Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser,
-            // and NOT through AppDomain.CurrentDomain.UnhandledException
-
-            Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-            {
-                UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
-            };
-#endif
-        }
+        ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
+        {
+            args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
+        };
+#endif  
     }
 }

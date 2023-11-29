@@ -1,5 +1,4 @@
-using System.Security;
-using NLog.Targets.MauiLog;
+using System.Security;using NLog.Internal.Xamarin;
 
 [assembly: Preserve]    // Automatic --linkskip=NLog.Targets.MauiLog
 [assembly: AllowPartiallyTrustedCallers]
