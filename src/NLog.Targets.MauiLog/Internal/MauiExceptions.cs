@@ -49,8 +49,10 @@ internal static class MauiExceptions
 	    if (!OperatingSystem.IsAndroidVersionAtLeast(21))
 		    return;
 	    Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-	    {
-		    UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
+		{
+			if (!OperatingSystem.IsAndroidVersionAtLeast(21))
+				return;
+			UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
 	    };
 #elif __APPLE__
         // For iOS and Mac Catalyst

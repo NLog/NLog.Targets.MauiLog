@@ -17,9 +17,14 @@ public static class SetupLoadConfigurationExtensions
     /// <param name="category">Override the logging category</param>
     public static ISetupConfigurationTargetBuilder WriteToMauiLog(this ISetupConfigurationTargetBuilder configBuilder, NLog.Layouts.Layout layout = null, NLog.Layouts.Layout category = null)
     {
+#if __ANDROID__
         var logTarget = new MauiLogTarget();
+#else
+	    var logTarget = new MauiLogTarget();
+#endif
+		// var logTarget = new MauiLogTarget();
 
-        if (layout != null)
+		if (layout != null)
             logTarget.Layout = layout;
         if (category != null)
             logTarget.Category = category;
