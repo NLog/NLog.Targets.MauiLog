@@ -18,7 +18,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		
-		<VersionPrefix>5.2.1</VersionPrefix>
+		<VersionPrefix>5.2.2</VersionPrefix>
 		<AssemblyVersion>5.0.0.0</AssemblyVersion>
 		<AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
 		<AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
@@ -71,20 +71,20 @@
 		<DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
 	</Target>
 
-	<PropertyGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) == true">
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
 		<DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) == true">
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
 		<DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="$(TargetFramework.StartsWith('net7.0-maccatalyst')) == true">
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">
 		<DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
 	</PropertyGroup>
 
 	<!-- Android -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) != true">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'">
 		<Compile Remove="**\**\*.Android.cs" />
 		<None Include="**\**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\Android\**\*.cs" />
@@ -92,7 +92,7 @@
 	</ItemGroup>
 
 	<!-- Both iOS and Mac Catalyst -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true AND $(TargetFramework.StartsWith('net7.0-maccatalyst')) != true">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'ios' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'maccatalyst'">
 		<Compile Remove="**\**\*.MaciOS.cs" />
 		<None Include="**\**\*.MaciOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\MaciOS\**\*.cs" />
@@ -100,7 +100,7 @@
 	</ItemGroup>
 
 	<!-- iOS -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) != true">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'ios'">
 		<Compile Remove="**\**\*.iOS.cs" />
 		<None Include="**\**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\iOS\**\*.cs" />
@@ -108,7 +108,7 @@
 	</ItemGroup>
 
 	<!-- Mac Catalyst -->
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-maccatalyst')) != true">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'maccatalyst'">
 		<Compile Remove="**\**\*.MacCatalyst.cs" />
 		<None Include="**\**\*.MacCatalyst.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\MacCatalyst\**\*.cs" />
@@ -116,7 +116,7 @@
 	</ItemGroup>
 
 	<!-- Windows -->
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true">
+	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
 		<Compile Remove="**\*.Windows.cs" />
 		<None Include="**\*.Windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
 		<Compile Remove="**\Windows\**\*.cs" />

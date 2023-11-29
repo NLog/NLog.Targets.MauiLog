@@ -1,5 +1,5 @@
 using System.Security;
 
-[assembly: NLog.Targets.MauiLogLinker.Preserve]    // Automatic --linkskip=NLog.Targets.MauiLog
+[assembly: NLog.Targets.MauiLog.Preserve]    // Automatic --linkskip=NLog.Targets.MauiLog
 [assembly: AllowPartiallyTrustedCallers]
 [assembly: SecurityRules(SecurityRuleSet.Level1)]

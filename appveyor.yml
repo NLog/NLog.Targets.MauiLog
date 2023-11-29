@@ -6,7 +6,7 @@ nuget:
   disable_publish_on_pr: true
 build_script:
 - ps: dotnet workload install maui macos android ios maccatalyst
-- ps: msbuild /t:restore,pack /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:ContinuousIntegrationBuild=true /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
+- ps: msbuild /t:restore,pack /p:Configuration=Release /p:TargetPlatforms=net6.0-android;net6.0-windows10.0.19041.0;net6.0-maccatalyst;net6.0-ios /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:ContinuousIntegrationBuild=true /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
 artifacts:
   - path: '**\NLog.*.nupkg'
   - path: '**\NLog.*.snupkg'

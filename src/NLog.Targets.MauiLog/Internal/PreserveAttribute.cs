@@ -1,4 +1,4 @@
-namespace NLog.Targets.MauiLogLinker;
+namespace NLog.Targets.MauiLog;
 
 using System;
 

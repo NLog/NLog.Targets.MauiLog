@@ -6,7 +6,7 @@ namespace NLog.Targets;
 /// Output target for Android.Util.Log
 /// </summary>
 [Target("MauiLog")]
-[NLog.Targets.MauiLogLinker.Preserve]
+[NLog.Targets.MauiLog.Preserve]
 public class MauiLogTarget : TargetWithLayoutHeaderAndFooter
 {
     /// <summary>

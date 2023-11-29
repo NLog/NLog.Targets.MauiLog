@@ -8,7 +8,7 @@ namespace NLog.Targets;
 /// Output target for System.Diagnostics.Debugger.Log with fallback to Console when no debugger
 /// </summary>
 [Target("MauiLog")]
-[NLog.Targets.MauiLogLinker.Preserve]
+[NLog.Targets.MauiLog.Preserve]
 public class MauiLogTarget : TargetWithLayoutHeaderAndFooter
 {
 	/// <summary>
