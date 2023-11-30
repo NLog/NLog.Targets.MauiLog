@@ -63,7 +63,11 @@ internal static class MauiExceptions
         
         ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
         {
-            args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
+			if(OperatingSystem.IsIOSVersionAtLeast(10,0) || OperatingSystem.IsMacCatalystVersionAtLeast(10,0)
+            || OperatingSystem.IsMacOSVersionAtLeast(10,14) || OperatingSystem.IsTvOSVersionAtLeast(10,0))
+			{
+				args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
+			}
         };
 #endif  
     }

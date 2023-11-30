@@ -56,22 +56,32 @@ public class MauiLogTarget : TargetWithLayoutHeaderAndFooter
 
 	private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
 	{
-		var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
-		if (logEvent.Level == LogLevel.Trace || logEvent.Level == LogLevel.Debug)
+		if(OperatingSystem.IsIOSVersionAtLeast(10,0) 
+			|| OperatingSystem.IsMacCatalystVersionAtLeast(10,0)
+			|| OperatingSystem.IsMacOSVersionAtLeast(10,14) 
+			|| OperatingSystem.IsTvOSVersionAtLeast(10,0))
 		{
-			CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Debug, logMessage);
-		}
-		else if (logEvent.Level == LogLevel.Info)
-		{
-			CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Info, logMessage);
-		}
-		else if (logEvent.Level == LogLevel.Warn || logEvent.Level == LogLevel.Error)
-		{
-			CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Error, logMessage);
+			var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
+			if (logEvent.Level == LogLevel.Trace || logEvent.Level == LogLevel.Debug)
+			{
+				CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Debug, logMessage);
+			}
+			else if (logEvent.Level == LogLevel.Info)
+			{
+				CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Info, logMessage);
+			}
+			else if (logEvent.Level == LogLevel.Warn || logEvent.Level == LogLevel.Error)
+			{
+				CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Error, logMessage);
+			}
+			else
+			{
+				CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Fault, logMessage);
+			}
 		}
 		else
 		{
-			CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Fault, logMessage);
+			Debug.WriteLine(logMessage);
 		}
 	}
 }
