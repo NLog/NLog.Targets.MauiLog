@@ -56,12 +56,12 @@ public class MauiLogTarget : TargetWithLayoutHeaderAndFooter
 
 	private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
 	{
+		var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
 		if(OperatingSystem.IsIOSVersionAtLeast(10,0) 
 			|| OperatingSystem.IsMacCatalystVersionAtLeast(10,0)
 			|| OperatingSystem.IsMacOSVersionAtLeast(10,14) 
 			|| OperatingSystem.IsTvOSVersionAtLeast(10,0))
 		{
-			var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
 			if (logEvent.Level == LogLevel.Trace || logEvent.Level == LogLevel.Debug)
 			{
 				CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Debug, logMessage);

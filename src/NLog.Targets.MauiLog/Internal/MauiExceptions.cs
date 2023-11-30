@@ -61,14 +61,18 @@ internal static class MauiExceptions
         // 
         // See: https://github.com/xamarin/xamarin-macios/issues/15252
         
-        ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
-        {
-			if(OperatingSystem.IsIOSVersionAtLeast(10,0) || OperatingSystem.IsMacCatalystVersionAtLeast(10,0)
-            || OperatingSystem.IsMacOSVersionAtLeast(10,14) || OperatingSystem.IsTvOSVersionAtLeast(10,0))
-			{
-				args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
-			}
-        };
+		if(OperatingSystem.IsIOSVersionAtLeast(10,0) || OperatingSystem.IsMacCatalystVersionAtLeast(10,0)
+        || OperatingSystem.IsMacOSVersionAtLeast(10,14) || OperatingSystem.IsTvOSVersionAtLeast(10,0))
+		{
+	        ObjCRuntime.Runtime.MarshalManagedException += (_, args) =>
+	        {
+				if(OperatingSystem.IsIOSVersionAtLeast(10,0) || OperatingSystem.IsMacCatalystVersionAtLeast(10,0)
+	            || OperatingSystem.IsMacOSVersionAtLeast(10,14) || OperatingSystem.IsTvOSVersionAtLeast(10,0))
+				{
+					args.ExceptionMode = ObjCRuntime.MarshalManagedExceptionMode.UnwindNativeCode;
+				}
+	        };
+	    }
 #endif  
     }
 }
