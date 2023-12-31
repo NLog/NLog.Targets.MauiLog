@@ -10,7 +10,7 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var logger = NLog.LogManager.Setup().RegisterMauiLog()
-            .LoadConfiguration(c => c.ForLogger(NLog.LogLevel.Debug).WriteToMauiLog()) // Alternative use LoadConfigurationFromAssemblyResource()
+            .LoadConfiguration(c => c.ForLogger().FilterMinLevel(NLog.LogLevel.Debug).WriteToMauiLog()) // Alternative use LoadConfigurationFromAssemblyResource()
             .GetCurrentClassLogger();
 
         try
