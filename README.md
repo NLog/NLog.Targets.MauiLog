@@ -50,7 +50,7 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
    Alternative setup NLog configuration using [fluent-API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API):
    ```csharp
    var logger = NLog.LogManager.Setup().RegisterMauiLog()
-                    .LoadConfiguration(c => c.ForLogger(NLog.LogLevel.Debug).WriteToMauiLog())
+                    .LoadConfiguration(c => c.ForLogger().FilterMinLevel(NLog.LogLevel.Debug).WriteToMauiLog())
                     .GetCurrentClassLogger();
    ```
 
