@@ -1,15 +1,13 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' != 'true'">netstandard2.0;net461</TargetFrameworks>
-    <TargetFrameworks Condition="'$(ContinuousIntegrationBuild)' == 'true'">netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid90;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst</TargetFrameworks>
-    <VersionPrefix>5.2.1</VersionPrefix>
-    <AssemblyVersion>5.0.0.0</AssemblyVersion>
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
-    <AppVeyorBuildNumber Condition="'$(AppVeyorBuildNumber)' == ''">0</AppVeyorBuildNumber>
-    <FileVersion>$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
-    
-    <Title>NLog.Targets.MauiLog</Title>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == '' And '$(AppVeyorBuildNumber)' == ''">net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net8.0;net8.0-ios;net8.0-macos;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
+    <FileVersion Condition="'$(AppVeyorBuildNumber)' != ''">$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
+
+    <Title>NLog.Targets.MauiLog for $(TargetFramework)</Title>
+    <AssemblyTitle>$(Title)</AssemblyTitle>
     <Company>NLog</Company>
     <Description>NLog MauiLog Target for writing to Apple Unified Logging / Android.Util.Log for LogCat</Description>
     <RepositoryType>git</RepositoryType>
@@ -20,9 +18,7 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Added support for UnhandledExceptionEventHandler in RegisterMauiLog
-- Updated to NLog v5.2.2
-- Added nuget-package README.md
+- Removed Xamarin TargetFrameworks
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
@@ -32,7 +28,9 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable>true</IsTrimmable>
+    <TrimMode>copyused</TrimMode>
     <CheckEolWorkloads>false</CheckEolWorkloads>
+    <SingleProject>true</SingleProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,24 +47,25 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
     <DownloadFile SourceUrl="https://nlog-project.org/N.png" DestinationFolder="$(MSBuildThisFileDirectory)" />
   </Target>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'MonoAndroid90' Or '$(TargetFramework)' == 'net6.0-android' ">
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+    <TargetPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">33</TargetPlatformVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' Or '$(TargetFramework)' == 'net6.0-ios' Or '$(TargetFramework)' == 'net6.0-macos' Or '$(TargetFramework)' == 'net6.0-maccatalyst' ">
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst' ">
     <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-macos'">10.14</SupportedOSPlatformVersion>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' Or '$(TargetFramework)' == 'Xamarin.Mac20' ">
-    <Reference Include="netstandard" />
-  </ItemGroup>
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos' ">
+    <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
+    <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="5.2.2" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

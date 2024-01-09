@@ -9,7 +9,7 @@ namespace NLog
     public static class SetupBuilderExtensions
     {
         /// <summary>
-        /// Register the NLog.Web LayoutRenderers before loading NLog config
+        /// Register the NLog.Target.MauiLog extensions before loading NLog config
         /// </summary>
         public static ISetupBuilder RegisterMauiLog(this ISetupBuilder setupBuilder)
         {
@@ -18,7 +18,7 @@ namespace NLog
         }
 
         /// <summary>
-        /// Register the NLog.Web LayoutRenderers before loading NLog config
+        /// Register the NLog.Target.MauiLog extensions before loading NLog config
         /// </summary>
         public static ISetupBuilder RegisterMauiLog(this ISetupBuilder setupBuilder, UnhandledExceptionEventHandler unhandledException)
         {
