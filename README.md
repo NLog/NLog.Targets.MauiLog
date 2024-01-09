@@ -15,11 +15,11 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
    - `Install-Package NLog.Targets.MauiLog` 
    - `Install-Package NLog.Extensions.Logging` 
     
-   or in your csproj:
+   or in your csproj (Use ver. 8 for NET8, and ver. 7 for NET7 etc.):
 
     ```xml
-    <PackageReference Include="NLog.Targets.MauiLog" Version="5.*" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="5.*" />
+    <PackageReference Include="NLog.Targets.MauiLog" Version="8.*" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="8.*" />
     ```
 
 2) **Add NLog to the MauiApp**

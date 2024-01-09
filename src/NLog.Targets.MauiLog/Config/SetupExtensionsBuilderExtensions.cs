@@ -9,7 +9,7 @@ namespace NLog
     public static class SetupExtensionsBuilderExtensions
     {
         /// <summary>
-        /// Register the NLog.Web LayoutRenderers
+        /// Register the NLog.Target.MauiLog extensions before loading NLog config
         /// </summary>
         public static ISetupExtensionsBuilder RegisterMauiLog(this ISetupExtensionsBuilder setupBuilder)
         {
