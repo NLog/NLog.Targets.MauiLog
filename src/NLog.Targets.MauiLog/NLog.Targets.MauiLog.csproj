@@ -29,8 +29,10 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable>true</IsTrimmable>
     <TrimMode>copyused</TrimMode>
+   
     <CheckEolWorkloads>false</CheckEolWorkloads>
     <SingleProject>true</SingleProject>
+    <UseMaui Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'macos' And '$(TargetFramework)' != 'net8.0'">true</UseMaui>
   </PropertyGroup>
 
   <ItemGroup>
