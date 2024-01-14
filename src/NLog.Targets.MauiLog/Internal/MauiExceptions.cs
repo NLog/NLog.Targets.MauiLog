@@ -41,7 +41,6 @@ namespace NLog.Targets.MauiLog
             };
 
 #if __APPLE__
-
             // For iOS and Mac Catalyst
             // Exceptions will flow through AppDomain.CurrentDomain.UnhandledException,
             // but we need to set UnwindNativeCode to get it to work correctly. 
@@ -54,10 +53,11 @@ namespace NLog.Targets.MauiLog
             };
 
 #elif __ANDROID__
-
             // For Android:
             // All exceptions will flow through Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser,
             // and NOT through AppDomain.CurrentDomain.UnhandledException
+            if (!OperatingSystem.IsAndroidVersionAtLeast(21))
+                return;
 
             Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
             {
