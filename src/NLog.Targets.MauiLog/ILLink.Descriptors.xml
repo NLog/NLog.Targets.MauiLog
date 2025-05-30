@@ -1,4 +1,0 @@
-<linker>
-  <assembly fullname="NLog" preserve="all" />
-  <assembly fullname="NLog.Targets.MauiLog" preserve="all" />
-</linker>

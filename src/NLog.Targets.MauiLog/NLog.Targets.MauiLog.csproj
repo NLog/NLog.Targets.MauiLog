@@ -18,7 +18,7 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Removed static assembly version
+- Updated to NLog v6 with AOT-support
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
@@ -27,18 +27,13 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
     <IsPublishable>false</IsPublishable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-    <IsTrimmable>true</IsTrimmable>
-    <TrimMode>copyused</TrimMode>
+    <Nullable>enable</Nullable>
     <CheckEolWorkloads>false</CheckEolWorkloads>
     <SingleProject>true</SingleProject>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <IsTrimmable Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">true</IsTrimmable>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
   </PropertyGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="ILLink.Descriptors.xml">
-      <LogicalName>ILLink.Descriptors.xml</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="../../README.md" Pack="true" PackagePath="" />
@@ -65,7 +60,7 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.2.2" />
+    <PackageReference Include="NLog" Version="6.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
