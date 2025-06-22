@@ -17,7 +17,7 @@ namespace NLog.Targets
         /// <summary>
         /// Not used at the moment
         /// </summary>
-        public Layout Category { get; set; }
+        public Layout? Category { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppleOSLogTarget"/> class.

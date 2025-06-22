@@ -65,11 +65,9 @@ namespace NLog.Targets
         private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
         {
             var message = RenderLogEvent(layout, logEvent) ?? string.Empty;
-            var category = RenderLogEvent(Category, logEvent);
-            if (string.IsNullOrEmpty(category))
-                category = null;
+            var category = RenderLogEvent(Category, logEvent) ?? string.Empty;
 
-            Java.Lang.Throwable throwable = null;
+            Java.Lang.Throwable? throwable = null;
             if (logEvent.Exception != null)
             {
                 throwable = Java.Lang.Throwable.FromException(logEvent.Exception);
@@ -77,27 +75,45 @@ namespace NLog.Targets
 
             if (logEvent.Level == LogLevel.Trace)
             {
-                Android.Util.Log.Verbose(category, throwable, message);
+                if (throwable is null)
+                    Android.Util.Log.Verbose(category, message);
+                else
+                    Android.Util.Log.Verbose(category, throwable, message);
             }
             else if (logEvent.Level == LogLevel.Debug)
             {
-                Android.Util.Log.Debug(category, throwable, message);
+                if (throwable is null)
+                    Android.Util.Log.Debug(category, message);
+                else
+                    Android.Util.Log.Debug(category, throwable, message);
             }
             else if (logEvent.Level == LogLevel.Info)
             {
-                Android.Util.Log.Info(category, throwable, message);
+                if (throwable is null)
+                    Android.Util.Log.Info(category, message);
+                else
+                    Android.Util.Log.Info(category, throwable, message);
             }
             else if (logEvent.Level == LogLevel.Warn)
             {
-                Android.Util.Log.Warn(category, throwable, message);
+                if (throwable is null)
+                    Android.Util.Log.Warn(category, message);
+                else
+                    Android.Util.Log.Warn(category, throwable, message);
             }
             else if (logEvent.Level == LogLevel.Error)
             {
-                Android.Util.Log.Error(category, throwable, message);
+                if (throwable is null)
+                    Android.Util.Log.Error(category, message);
+                else
+                    Android.Util.Log.Error(category, throwable, message);
             }
             else
             {
-                Android.Util.Log.Wtf(category, throwable, message);
+                if (throwable is null)
+                    Android.Util.Log.Wtf(category, message);
+                else
+                    Android.Util.Log.Wtf(category, throwable, message);
             }
         }
     }

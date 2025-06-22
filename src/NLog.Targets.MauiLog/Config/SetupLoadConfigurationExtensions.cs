@@ -15,7 +15,7 @@ namespace NLog
         /// <param name="configBuilder"></param>
         /// <param name="layout">Override the default Layout for output</param>
         /// <param name="category">Override the logging category</param>
-        public static ISetupConfigurationTargetBuilder WriteToMauiLog(this ISetupConfigurationTargetBuilder configBuilder, Layout layout = null, Layout category = null)
+        public static ISetupConfigurationTargetBuilder WriteToMauiLog(this ISetupConfigurationTargetBuilder configBuilder, Layout? layout = null, Layout? category = null)
         {
 #if __ANDROID__
             var logTarget = new AndroidUtilLogTarget();
@@ -38,7 +38,7 @@ namespace NLog
         /// <param name="layout">Override the default Layout for output</param>
         /// <param name="category">Override the logging category</param>
         [System.Diagnostics.Conditional("DEBUG")]
-        public static void WriteToMauiLogConditional(this ISetupConfigurationTargetBuilder configBuilder, Layout layout = null, Layout category = null)
+        public static void WriteToMauiLogConditional(this ISetupConfigurationTargetBuilder configBuilder, Layout? layout = null, Layout? category = null)
         {
             configBuilder.WriteToMauiLog(layout, category);
         }

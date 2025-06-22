@@ -27,7 +27,7 @@ namespace NLog.Targets.MauiLog
     internal static class MauiExceptions
     {
         // We'll route all unhandled exceptions through this one event.
-        public static event UnhandledExceptionEventHandler UnhandledException;
+        public static event UnhandledExceptionEventHandler? UnhandledException;
 
         static MauiExceptions()
         {
@@ -61,7 +61,9 @@ namespace NLog.Targets.MauiLog
 
             Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
             {
+#pragma warning disable CS8604 // Possible null reference argument for parameter 'sender'
                 UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
+#pragma warning restore CS8604 // Possible null reference argument for parameter 'sender'
             };
 #endif
         }
