@@ -7,6 +7,7 @@ skip_branch_with_pr: true
 nuget:
   disable_publish_on_pr: true
 build_script:
+- ps: dotnet --version
 - ps: dotnet tool install -g Redth.Net.Maui.Check
 - ps: ./update-global-json.ps1 7.0.100
 - ps: msbuild src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj /t:restore,pack /p:targetFrameworks='"net7.0;net7.0-ios;net7.0-macos;net7.0-android;net7.0-maccatalyst"' /p:VersionPrefix=7.6.2 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
