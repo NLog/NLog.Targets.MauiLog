@@ -9,13 +9,9 @@ nuget:
 build_script:
 - ps: dotnet --version
 - ps: dotnet tool install -g Redth.Net.Maui.Check
-- ps: ./update-global-json.ps1 7.0.100
-- ps: msbuild src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj /t:restore,pack /p:targetFrameworks='"net7.0;net7.0-ios;net7.0-macos;net7.0-android;net7.0-maccatalyst"' /p:VersionPrefix=7.6.2 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
-- ps: ./update-global-json.ps1 6.0.100
-- ps: msbuild src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj /t:restore,pack /p:targetFrameworks='"net6.0;net6.0-ios;net6.0-macos;net6.0-android;net6.0-maccatalyst"' /p:VersionPrefix=6.6.2 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
-- ps: ./update-global-json.ps1 8.0.100
-- ps: msbuild src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj /t:restore,pack /p:targetFrameworks='"net8.0;net8.0-ios;net8.0-macos;net8.0-android;net8.0-maccatalyst"' /p:VersionPrefix=8.6.2 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
-- ps: dotnet build -c Release -p:VersionPrefix=8.6.2
+- ps: ./update-global-json.ps1 9.0.300
+- ps: msbuild src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj /t:restore,pack /p:targetFrameworks='"net9.0;net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst"' /p:VersionPrefix=9.0.3 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
+- ps: dotnet build -c Release -p:VersionPrefix=9.0.3
 artifacts:
   - path: '**\NLog.*.nupkg'
   - path: '**\NLog.*.snupkg'

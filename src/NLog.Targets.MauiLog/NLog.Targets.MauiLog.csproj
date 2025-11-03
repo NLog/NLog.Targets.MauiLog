@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
-    <TargetFrameworks Condition="'$(TargetFrameworks)' == '' And '$(AppVeyorBuildNumber)' == ''">net8.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net8.0;net8.0-ios;net8.0-macos;net8.0-android;net8.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == '' And '$(AppVeyorBuildNumber)' == ''">net9.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net9.0;net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
     <FileVersion Condition="'$(AppVeyorBuildNumber)' != ''">$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
 
     <Title>NLog.Targets.MauiLog for $(TargetFramework)</Title>
@@ -18,7 +18,8 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Updated to NLog v6.0.2 with AOT-support
+- MAUI ver. 9.0      
+- Updated to NLog v6.0.3 with AOT-support
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
@@ -45,22 +46,20 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
-    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-    <TargetPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">33</TargetPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst' ">
     <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
-    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos' ">
     <DefineConstants>$(DefineConstants);__APPLE__</DefineConstants>
-    <SupportedOSPlatformVersion>10.14</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>15.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.0.2" />
+    <PackageReference Include="NLog" Version="6.0.3" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
