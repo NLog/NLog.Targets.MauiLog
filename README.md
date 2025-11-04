@@ -1,12 +1,12 @@
 # NLog.Targets.MauiLog
+[![Version](https://badge.fury.io/nu/NLog.Targets.MauiLog.svg)](https://www.nuget.org/packages/NLog.Targets.MauiLog)
+[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-targets-mauilog/master.svg)](https://ci.appveyor.com/project/nlog/nlog-targets-mauilog/branch/master)
+
 NLog Target for debugging on MAUI / Xamarin Mobile Platforms:
 
 - Apple iOS / MacOS - Unified Logging OSLog (replacement of print and NSLog) 
 - Android - Android.Util.Log / LogCat
 - NetStandard - System.Diagnostics.Debugger.Log
-
-[![Version](https://badge.fury.io/nu/NLog.Targets.MauiLog.svg)](https://www.nuget.org/packages/NLog.Targets.MauiLog)
-[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-targets-mauilog/master.svg)](https://ci.appveyor.com/project/nlog/nlog-targets-mauilog/branch/master)
 
 ## How to setup NLog in MAUI
 
