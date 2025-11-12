@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <AppVeyorBuildNumber>$(APPVEYOR_BUILD_NUMBER)</AppVeyorBuildNumber>
-    <TargetFrameworks Condition="'$(TargetFrameworks)' == '' And '$(AppVeyorBuildNumber)' == ''">net9.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net9.0;net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == '' And '$(AppVeyorBuildNumber)' == ''">net10.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst</TargetFrameworks>
     <FileVersion Condition="'$(AppVeyorBuildNumber)' != ''">$(VersionPrefix).$(AppVeyorBuildNumber)</FileVersion>
 
     <Title>NLog.Targets.MauiLog for $(TargetFramework)</Title>
@@ -18,7 +18,7 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- MAUI ver. 9.0      
+- MAUI ver. 10.0
 - Updated to NLog v6.0.3 with AOT-support
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
