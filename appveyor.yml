@@ -6,12 +6,16 @@ skip_tags: true
 skip_branch_with_pr: true
 nuget:
   disable_publish_on_pr: true
+install:
+- ps: |
+    Invoke-WebRequest -Uri 'https://dot.net/v1/dotnet-install.ps1' -UseBasicParsing -OutFile "$env:temp\dotnet-install.ps1"
+    & $env:temp\dotnet-install.ps1 -Architecture x64 -Version '10.0.100' -InstallDir "$env:ProgramFiles\dotnet"
 build_script:
 - ps: dotnet --version
 - ps: dotnet tool install -g Redth.Net.Maui.Check
-- ps: ./update-global-json.ps1 9.0.300
-- ps: msbuild src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj /t:restore,pack /p:targetFrameworks='"net9.0;net9.0-ios;net9.0-macos;net9.0-android;net9.0-maccatalyst"' /p:VersionPrefix=9.0.3 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
-- ps: dotnet build -c Release -p:VersionPrefix=9.0.3
+- ps: ./update-global-json.ps1 10.0.100
+- ps: dotnet build /p:VersionPrefix=10.0.3 /p:Configuration=Release
+- ps: dotnet pack /p:VersionPrefix=10.0.3 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
 artifacts:
   - path: '**\NLog.*.nupkg'
   - path: '**\NLog.*.snupkg'
