@@ -30,34 +30,34 @@
           "version": "31.3.12"
         },
         {
-          "path": "build-tools;33.0.0",
-          "version": "33.0.0"
+          "path": "build-tools;35.0.0",
+          "version": "35.0.0"
         },
         {
-          "path": "platforms;android-33",
+          "path": "platforms;android-35",
           "version": "2"
         },
         {
-          "path": "system-images;android-33;google_apis;x86_64",
+          "path": "system-images;android-35;google_apis;x86_64",
           "version": "10",
           "alternatives": [
             {
-              "path": "system-images;android-31;google_apis_playstore;x86_64",
-              "version": "9"
-            },
-            {
-              "path": "system-images;android-31;google_apis;arm64-v8a",
+              "path": "system-images;android-35;google_apis_playstore;x86_64",
               "version": "10"
             },
             {
-              "path": "system-images;android-33;google_apis;arm64-v8a",
-              "version": "9"
+              "path": "system-images;android-35;google_apis;arm64-v8a",
+              "version": "10"
+            },
+            {
+              "path": "system-images;android-35;google_apis;arm64-v8a",
+              "version": "10"
             }
           ]
         },
         {
           "path": "platform-tools",
-          "version": "33.0.3"
+          "version": "35.0.2"
         },
         {
           "path": "cmdline-tools;8.0",
@@ -66,15 +66,17 @@
       ],
       "emulators": [
         {
-          "sdkId": "system-images;android-33;google_apis;x86_64",
+          "sdkId": "system-images;android-35;google_apis;x86_64",
           "alternateSdkIds": [
             "system-images;android-31;google_apis_playstore;x86_64",
             "system-images;android-33;google_apis_playstore;x86_64",
+            "system-images;android-35;google_apis_playstore;x86_64",
             "system-images;android-31;google_apis;arm64-v8a",
-            "system-images;android-33;google_apis;arm64-v8a"
+            "system-images;android-33;google_apis;arm64-v8a",
+            "system-images;android-35;google_apis;arm64-v8a"
           ],
-          "desc": "Android Emulator - x86_64 - API33 - Google API's",
-          "apiLevel": 33,
+          "desc": "Android Emulator - x86_64 - API35 - Google API's",
+          "apiLevel": 35,
           "tag": "google_apis",
           "device": "pixel"
         }

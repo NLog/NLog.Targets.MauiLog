@@ -47,7 +47,7 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <DefineConstants>$(DefineConstants);__ANDROID__</DefineConstants>
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-    <TargetPlatformVersion>33</TargetPlatformVersion>
+    <TargetPlatformVersion>35</TargetPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' Or $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst' ">
