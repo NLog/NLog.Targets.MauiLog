@@ -1,0 +1,111 @@
+{
+  "check": {
+    "toolVersion": "2.0.0",
+    "variables": {
+      "DOTNET_SDK_VERSION": "7.0.302",
+      "OPENJDK_VERSION": "11.0.19",
+      "WORKLOAD_ROLLBACK": "https://maui.blob.core.windows.net/metadata/rollbacks/7.0.86.json",
+      "PACKAGE_SOURCE_NUGET_ORG": "https://api.nuget.org/v3/index.json"
+    },
+    "openjdk": {
+      "version": "11.0",
+      "urls": {
+        "win": "https://aka.ms/download-jdk/microsoft-jdk-$(OPENJDK_VERSION)-windows-x64.msi",
+        "winArm64": "https://aka.ms/download-jdk/microsoft-jdk-$(OPENJDK_VERSION)-windows-aarch6464.msi",
+        "osx": "https://aka.ms/download-jdk/microsoft-jdk-$(OPENJDK_VERSION)-macos-x64.pkg",
+        "osxArm64": "https://aka.ms/download-jdk/microsoft-jdk-$(OPENJDK_VERSION)-macos-aarch64.pkg"
+      }
+    },
+    "vswin": {
+      "minimumVersion": "17.6"
+    },
+    "xcode": {
+      "exactVersion": "21812",
+      "exactVersionName": "14.3"
+    },
+    "android": {
+      "packages": [
+        {
+          "path": "emulator",
+          "version": "31.3.12"
+        },
+        {
+          "path": "build-tools;33.0.0",
+          "version": "33.0.0"
+        },
+        {
+          "path": "platforms;android-33",
+          "version": "2"
+        },
+        {
+          "path": "system-images;android-33;google_apis;x86_64",
+          "version": "10",
+          "alternatives": [
+            {
+              "path": "system-images;android-31;google_apis_playstore;x86_64",
+              "version": "9"
+            },
+            {
+              "path": "system-images;android-31;google_apis;arm64-v8a",
+              "version": "10"
+            },
+            {
+              "path": "system-images;android-33;google_apis;arm64-v8a",
+              "version": "9"
+            }
+          ]
+        },
+        {
+          "path": "platform-tools",
+          "version": "33.0.3"
+        },
+        {
+          "path": "cmdline-tools;8.0",
+          "version": "8.0"
+        }
+      ],
+      "emulators": [
+        {
+          "sdkId": "system-images;android-33;google_apis;x86_64",
+          "alternateSdkIds": [
+            "system-images;android-31;google_apis_playstore;x86_64",
+            "system-images;android-33;google_apis_playstore;x86_64",
+            "system-images;android-31;google_apis;arm64-v8a",
+            "system-images;android-33;google_apis;arm64-v8a"
+          ],
+          "desc": "Android Emulator - x86_64 - API33 - Google API's",
+          "apiLevel": 33,
+          "tag": "google_apis",
+          "device": "pixel"
+        }
+      ]
+    },
+    "dotnet": {
+      "sdks": [
+        {
+          "version": "$(DOTNET_SDK_VERSION)",
+          "requireExact": false,
+          "urls": {
+            "win64": "https://dotnetcli.azureedge.net/dotnet/Sdk/$(DOTNET_SDK_VERSION)/dotnet-sdk-$(DOTNET_SDK_VERSION)-win-x64.exe",
+            "winArm64": "https://dotnetcli.azureedge.net/dotnet/Sdk/$(DOTNET_SDK_VERSION)/dotnet-sdk-$(DOTNET_SDK_VERSION)-win-arm64.exe",
+            "win": "https://dotnetcli.azureedge.net/dotnet/Sdk/$(DOTNET_SDK_VERSION)/dotnet-sdk-$(DOTNET_SDK_VERSION)-win-x86.exe",
+            "osx": "https://dotnetcli.azureedge.net/dotnet/Sdk/$(DOTNET_SDK_VERSION)/dotnet-sdk-$(DOTNET_SDK_VERSION)-osx-x64.pkg",
+            "osxArm64": "https://dotnetcli.azureedge.net/dotnet/Sdk/$(DOTNET_SDK_VERSION)/dotnet-sdk-$(DOTNET_SDK_VERSION)-osx-arm64.pkg"
+          },
+          "packageSources": [
+            "$(PACKAGE_SOURCE_NUGET_ORG)"
+          ],
+          "workloadRollback": "$(WORKLOAD_ROLLBACK)",
+          "workloadIds": [
+            "maui",
+            "android",
+            "maccatalyst",
+            "ios",
+            "tvos",
+            "macos"
+          ]
+        }
+      ]
+    }
+  }
+}
