@@ -21,6 +21,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<CheckEolWorkloads>false</CheckEolWorkloads>
 		<IsPackable>false</IsPackable>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 
 		<!-- Display name -->
 		<ApplicationTitle>MauiApp2</ApplicationTitle>
@@ -59,13 +60,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NLog.Extensions.Logging" Version="6.0.3" />
+		<PackageReference Include="NLog.Extensions.Logging" Version="6.1.4" />
 		<ProjectReference Include="..\..\src\NLog.Targets.MauiLog\NLog.Targets.MauiLog.csproj" />
 	</ItemGroup>
 </Project>

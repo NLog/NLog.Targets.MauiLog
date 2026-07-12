@@ -34,6 +34,7 @@
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
                                            BackgroundColor="Red"
+                                           x:DataType="viewmodel:MainViewModel"
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
                                            CommandParameter="{Binding .}"/>
                             </SwipeItems>
@@ -42,6 +43,7 @@
                             <Frame>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer 
+                                           x:DataType="viewmodel:MainViewModel"
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=TapCommand}"
                                            CommandParameter="{Binding .}"/>
                                 </Frame.GestureRecognizers>

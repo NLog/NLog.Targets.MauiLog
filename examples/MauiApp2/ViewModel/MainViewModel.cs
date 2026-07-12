@@ -19,10 +19,10 @@ public partial class MainViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    ObservableCollection<string> items;
+    public partial ObservableCollection<string> Items { get; set; }
 
     [ObservableProperty]
-    string text;
+    public partial string Text { get; set; }
 
     [RelayCommand]
     async Task Add()
@@ -32,7 +32,7 @@ public partial class MainViewModel : ObservableObject
 
         if(connectivity.NetworkAccess != NetworkAccess.Internet)
         {
-            await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
+            await Shell.Current.DisplayAlertAsync("Uh Oh!", "No Internet", "OK");
             return;
         }
 
@@ -53,13 +53,20 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     async Task Tap(string s)
     {
-        _logger.LogTrace("Trace");
-        _logger.LogDebug("Debug");
-        _logger.LogInformation("Info");
-        _logger.LogWarning("Warn");
-        _logger.LogError("Error");
-        _logger.LogCritical("Critical");
-        await Shell.Current.GoToAsync($"{nameof(DetailPage)}?Text={s}");
+        try
+        {
+            _logger.LogTrace("Trace - GoTo {Tap}", s);
+            _logger.LogDebug("Debug - GoTo {Tap}", s);
+            _logger.LogInformation("Info - GoTo {Tap}", s);
+            _logger.LogWarning("Warn - GoTo {Tap}", s);
+            _logger.LogError("Error - GoTo {Tap}", s);
+            await Shell.Current.GoToAsync($"{nameof(DetailPage)}?Text={s}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, "Critical - GoTo {Tap}", s);
+            throw;
+        }
     }
 
 }

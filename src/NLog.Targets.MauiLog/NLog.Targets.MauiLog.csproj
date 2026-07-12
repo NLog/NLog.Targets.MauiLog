@@ -18,8 +18,9 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- MAUI ver. 10.0
-- Updated to NLog v6.0.3 with AOT-support
+- Fixed Apple OSLog output
+- Unwrap AggregateException for Android Log output
+- Updated to NLog v6.1.4
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
@@ -59,8 +60,8 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.0.3" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="NLog" Version="6.1.4" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>

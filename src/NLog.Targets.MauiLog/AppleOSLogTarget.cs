@@ -55,6 +55,12 @@ namespace NLog.Targets
             base.CloseTarget();
         }
 
+        /// <inheritdoc/>
+        protected override void Write(LogEventInfo logEvent)
+        {
+            DebugWriteLine(Layout, logEvent);
+        }
+
         private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
         {
             var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;

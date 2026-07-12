@@ -1,21 +1,21 @@
 version: 6.0.0.{build}
-image: Visual Studio 2022
+image: Visual Studio 2026
 configuration: Release
 platform: Any CPU
 skip_tags: true
 skip_branch_with_pr: true
 nuget:
   disable_publish_on_pr: true
-install:
-- ps: |
-    Invoke-WebRequest -Uri 'https://dot.net/v1/dotnet-install.ps1' -UseBasicParsing -OutFile "$env:temp\dotnet-install.ps1"
-    & $env:temp\dotnet-install.ps1 -Architecture x64 -Version '10.0.102' -InstallDir "$env:ProgramFiles\dotnet"
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_NOLOGO: true
 build_script:
 - ps: dotnet --version
 - ps: dotnet tool install -g Redth.Net.Maui.Check
-- ps: ./update-global-json.ps1 10.0.100
-- ps: dotnet build /p:VersionPrefix=10.0.3 /p:Configuration=Release
-- ps: dotnet pack /p:VersionPrefix=10.0.3 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
+- ps: ./update-global-json.ps1 10.0.300
+- ps: dotnet build /p:VersionPrefix=10.1.3 /p:Configuration=Release
+- ps: dotnet pack /p:VersionPrefix=10.1.3 /p:Configuration=Release /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /verbosity:minimal
 artifacts:
   - path: '**\NLog.*.nupkg'
   - path: '**\NLog.*.snupkg'
@@ -25,7 +25,3 @@ deploy:
     secure: FStb6Kr5sjHdPq4EzjHeXkW4DQDlS92kM9ZWDhApT68+j4WN7J7cnvvk3fj/hMxi
   on:
     branch: master
-environment:
-    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-    DOTNET_CLI_TELEMETRY_OPTOUT: true
-    DOTNET_NOLOGO: true
