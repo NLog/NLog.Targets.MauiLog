@@ -4,8 +4,7 @@ namespace NLog.Targets.MauiLog
 
     internal static class MauiExceptions
     {
-        // Provides a unified event for the platform-specific unhandled
-        // managed exception notifications supported by this library.
+        // Provides a unified event for the platform-specific unhandled managed exceptions
         public static event UnhandledExceptionEventHandler? UnhandledException;
 
         static MauiExceptions()
