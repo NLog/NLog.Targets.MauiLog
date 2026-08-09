@@ -56,15 +56,13 @@ public static MauiApp CreateMauiApp()
 
 NLog is now configured and receives log events from Microsoft.Extensions.Logging. Application code can continue using `ILogger<T>` as usual.
 
-You are not required to use the `ILogger<T>`, if you prefer using `NLog.LogManager.GetLogger(...)` in the application.
-
 See also [Logging Unhandled Exceptions](https://github.com/NLog/NLog.Targets.MauiLog/wiki/Logging-Unhandled-Exceptions)
 
 ## Alternative configuration
 
 The example above uses the [Fluent Configuration API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API). NLog also supports using configuration files like `NLog.config` or `appsettings.json`.
 
-When switching from the Fluent Configuration API to loading configuration file, remove the `LoadConfiguration(...)` call from the setup.
+When switching from the Fluent Configuration API to loading a aconfiguration file, remove the `LoadConfiguration(...)` call from the setup.
 
 When using configuration files, explicitly register the **MauiLog** extension:
 ```csharp
@@ -76,7 +74,7 @@ This explicit registration is important when using trimming or Native AOT. If an
 
 ### NLog.config
 
-Example `NLog.config`-file:
+Example `NLog.config` file:
 ```xml
 <nlog throwConfigExceptions="true">
   <targets>
@@ -88,7 +86,7 @@ Example `NLog.config`-file:
 </nlog>
 ```
 
-Make sure to add `NLog.config`-file as an **Embedded resource** in the application project (`Build Action` = `Embedded resource`).
+Make sure to add `NLog.config` file as an **Embedded resource** in the application project (`Build Action` = `Embedded resource`).
 
 Load the embedded configuration during application startup:
 ```csharp
@@ -101,7 +99,7 @@ NLog.LogManager.Setup()
 
 NLog `AddNLog()` loads the `"NLog"` section when present, with environment overrides.
 
-Example `appsettings.json`-file:
+Example `appsettings.json` file:
 ```json
 {
   "NLog": {
