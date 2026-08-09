@@ -18,9 +18,8 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Fixed Apple OSLog output
-- Unwrap AggregateException for Android Log output
-- Updated to NLog v6.1.4
+- Fixed UnhandledExceptionEventHandler to not capture using UnwindNativeCode on iOS
+- Updated nuget-package README to be more like tutorial
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
