@@ -43,7 +43,7 @@ public static MauiApp CreateMauiApp()
             .FilterMinLevel(NLog.LogLevel.Info)
             .WriteToMauiLog());
 
-    // Register NLog as a Microsoft.Extensions.Logging provider
+    // Register NLog as Microsoft.Extensions.Logging provider
     builder.Logging.AddNLog();
 
     builder.UseMauiApp<App>();
