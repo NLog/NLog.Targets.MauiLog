@@ -4,20 +4,22 @@ namespace NLog.Targets.MauiLog
 
     internal static class MauiExceptions
     {
-        // We'll route all unhandled exceptions through this one event.
+        // Provides a unified event for the platform-specific unhandled
+        // managed exception notifications supported by this library.
         public static event UnhandledExceptionEventHandler? UnhandledException;
 
         static MauiExceptions()
         {
             // General .NET unhandled-exception notification.
-            // Platform runtimes may have additional exception paths.
+            // Some platforms have additional exception handling mechanisms.
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 UnhandledException?.Invoke(sender, args);
             };
 
 #if __ANDROID__
-            // Android has a separate unhandled-exception notification.
+            // Android provides a separate notification for unhandled managed
+            // exceptions that are raised through the Android runtime.
             if (!OperatingSystem.IsAndroidVersionAtLeast(21))
                 return;
 
