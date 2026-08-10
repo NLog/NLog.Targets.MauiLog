@@ -56,6 +56,8 @@ public static MauiApp CreateMauiApp()
 
 NLog is now configured and receives log events from Microsoft.Extensions.Logging. Application code can continue using `ILogger<T>` as usual.
 
+You are not required to use the `ILogger<T>`, if you prefer using `NLog.LogManager.GetLogger(....)` in the application.
+
 See also [Logging Unhandled Exceptions](https://github.com/NLog/NLog.Targets.MauiLog/wiki/Logging-Unhandled-Exceptions)
 
 ## Alternative configuration
