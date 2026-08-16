@@ -18,8 +18,7 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Fixed UnhandledExceptionEventHandler to not capture using UnwindNativeCode on iOS
-- Updated nuget-package README to be more like tutorial
+- Updated NLog v6.2 to reduce AOT build file size.
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
