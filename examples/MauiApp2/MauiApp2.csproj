@@ -66,7 +66,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NLog.Extensions.Logging" Version="6.1.4" />
+		<PackageReference Include="NLog.Extensions.Logging" Version="6.2.0" />
 		<ProjectReference Include="..\..\src\NLog.Targets.MauiLog\NLog.Targets.MauiLog.csproj" />
 	</ItemGroup>
 </Project>
