@@ -29,7 +29,6 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
     <CheckEolWorkloads>false</CheckEolWorkloads>
-    <SingleProject>true</SingleProject>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <IsTrimmable Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">true</IsTrimmable>
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0'))">true</IsAotCompatible>
@@ -58,8 +57,8 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.1.4" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
+    <PackageReference Include="NLog" Version="6.2.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.400" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
