@@ -60,6 +60,8 @@ You are not required to use the `ILogger<T>`, if you prefer using `NLog.LogManag
 
 See also [Logging Unhandled Exceptions](https://github.com/NLog/NLog.Targets.MauiLog/wiki/Logging-Unhandled-Exceptions)
 
+See also [Display NLog LogEvents in .NET MAUI View](https://github.com/NLog/NLog.Targets.MauiLog/wiki/Display-NLog-LogEvents-in-.NET-MAUI-View)
+
 ## Alternative configuration
 
 The example above uses the [Fluent Configuration API](https://github.com/NLog/NLog/wiki/Fluent-Configuration-API). NLog also supports using configuration files like `NLog.config` or `appsettings.json`.
