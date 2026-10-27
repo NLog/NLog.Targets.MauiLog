@@ -12,8 +12,8 @@ NLog Target for debugging on MAUI / Xamarin Mobile Platforms using the native lo
 Install the following NuGet packages:
 
 ```
-dotnet package add NLog.Extensions.Logging
-dotnet package add NLog.Targets.MauiLog
+dotnet add package NLog.Extensions.Logging
+dotnet add package NLog.Targets.MauiLog
 ```
 
 Use the package versions appropriate for your .NET version (Use ver. 10 for NET10, and ver. 8 for NET8 etc.).
