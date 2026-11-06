@@ -17,57 +17,34 @@ env:
 
 jobs:
   build:
-    name: ${{ matrix.name }}
-    strategy:
-      matrix:
-        include:
-          - os: windows-latest
-            name: Build (Windows)
-            target_frameworks: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
-            framework_args:
-          - os: ubuntu-latest
-            name: Build (Ubuntu)
-            target_frameworks: net10.0
-            framework_args: --framework net10.0
-    runs-on: ${{ matrix.os }}
+    name: Build (Ubuntu)
+    runs-on: ubuntu-latest
     permissions:
       contents: read
 
     steps:
       - uses: actions/checkout@v7
 
-      - name: Install MAUI workloads
-        if: runner.os == 'Windows'
-        run: dotnet workload install maui macos android ios maccatalyst
-
-      - name: Install MAUI check
-        if: runner.os == 'Windows'
-        run: dotnet tool install -g Redth.Net.Maui.Check
-
-      - name: Check MAUI workloads
-        if: runner.os == 'Windows'
-        run: maui-check --fix --non-interactive --manifest maui.check.manifest.json
-
       - name: Restore
-        shell: pwsh
-        env:
-          TARGET_FRAMEWORKS: ${{ matrix.target_frameworks }}
-        run: dotnet restore $env:PROJECT "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))"
+        run: dotnet restore ${{ env.PROJECT }}
 
       - name: Build
-        shell: pwsh
-        env:
-          TARGET_FRAMEWORKS: ${{ matrix.target_frameworks }}
-        run: dotnet build $env:PROJECT --configuration Release --no-restore "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))" ${{ matrix.framework_args }}
+        run: dotnet build ${{ env.PROJECT }} --configuration Release --no-restore --framework net10.0
 
   pack:
-    name: Create NuGet package
+    name: Build & package (Windows)
     runs-on: windows-latest
     permissions:
       contents: read
 
     steps:
       - uses: actions/checkout@v7
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: windows-nuget-maui-${{ hashFiles('global.json', 'maui.check.manifest.json', 'src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj') }}
 
       - name: Install MAUI workloads
         run: dotnet workload install maui macos android ios maccatalyst
@@ -76,7 +53,7 @@ jobs:
         shell: pwsh
         env:
           TARGET_FRAMEWORKS: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
-        run: dotnet restore $env:PROJECT "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))"
+        run: $env:TargetFrameworks = $env:TARGET_FRAMEWORKS; dotnet restore $env:PROJECT
 
       - name: Determine version suffix
         id: version
@@ -99,7 +76,7 @@ jobs:
         env:
           VERSION_SUFFIX: ${{ steps.version.outputs.suffix }}
           TARGET_FRAMEWORKS: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
-        run: dotnet pack $env:PROJECT --no-restore --configuration Release --output artifacts "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:EmbedUntrackedSources=true -p:ContinuousIntegrationBuild=true -p:PublishRepositoryUrl=true --version-suffix "$env:VERSION_SUFFIX"
+        run: $env:TargetFrameworks = $env:TARGET_FRAMEWORKS; dotnet pack $env:PROJECT --no-restore --configuration Release --output artifacts -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:EmbedUntrackedSources=true -p:ContinuousIntegrationBuild=true -p:PublishRepositoryUrl=true --version-suffix "$env:VERSION_SUFFIX"
 
       - name: Upload NuGet package
         uses: actions/upload-artifact@v7
