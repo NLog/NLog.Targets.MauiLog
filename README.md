@@ -1,6 +1,6 @@
 # NLog.Targets.MauiLog
 [![Version](https://badge.fury.io/nu/NLog.Targets.MauiLog.svg)](https://www.nuget.org/packages/NLog.Targets.MauiLog)
-[![AppVeyor](https://img.shields.io/appveyor/ci/nlog/nlog-targets-mauilog/master.svg)](https://ci.appveyor.com/project/nlog/nlog-targets-mauilog/branch/master)
+[![CI](https://github.com/NLog/NLog.Targets.MauiLog/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/NLog/NLog.Targets.MauiLog/actions/workflows/ci.yml)
 
 NLog Target for debugging on MAUI / Xamarin Mobile Platforms using the native logging systems:
 - **Android** — `Android.Util.Log` → view in **Logcat**
