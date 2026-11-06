@@ -49,10 +49,16 @@ jobs:
         run: maui-check --fix --non-interactive --manifest maui.check.manifest.json
 
       - name: Restore
-        run: dotnet restore ${{ env.PROJECT }} -p:TargetFrameworks="${{ matrix.target_frameworks }}"
+        shell: pwsh
+        env:
+          TARGET_FRAMEWORKS: ${{ matrix.target_frameworks }}
+        run: dotnet restore $env:PROJECT "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))"
 
       - name: Build
-        run: dotnet build ${{ env.PROJECT }} --configuration Release --no-restore -p:TargetFrameworks="${{ matrix.target_frameworks }}" ${{ matrix.framework_args }}
+        shell: pwsh
+        env:
+          TARGET_FRAMEWORKS: ${{ matrix.target_frameworks }}
+        run: dotnet build $env:PROJECT --configuration Release --no-restore "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))" ${{ matrix.framework_args }}
 
   pack:
     name: Create NuGet package
@@ -67,7 +73,10 @@ jobs:
         run: dotnet workload install maui macos android ios maccatalyst
 
       - name: Restore
-        run: dotnet restore ${{ env.PROJECT }} -p:TargetFrameworks="net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst"
+        shell: pwsh
+        env:
+          TARGET_FRAMEWORKS: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
+        run: dotnet restore $env:PROJECT "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))"
 
       - name: Determine version suffix
         id: version
@@ -89,7 +98,8 @@ jobs:
         shell: pwsh
         env:
           VERSION_SUFFIX: ${{ steps.version.outputs.suffix }}
-        run: dotnet pack $env:PROJECT --no-restore --configuration Release --output artifacts -p:TargetFrameworks="net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:EmbedUntrackedSources=true -p:ContinuousIntegrationBuild=true -p:PublishRepositoryUrl=true --version-suffix "$env:VERSION_SUFFIX"
+          TARGET_FRAMEWORKS: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
+        run: dotnet pack $env:PROJECT --no-restore --configuration Release --output artifacts "-p:TargetFrameworks=$($env:TARGET_FRAMEWORKS.Replace(';','%3B'))" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:EmbedUntrackedSources=true -p:ContinuousIntegrationBuild=true -p:PublishRepositoryUrl=true --version-suffix "$env:VERSION_SUFFIX"
 
       - name: Upload NuGet package
         uses: actions/upload-artifact@v7
