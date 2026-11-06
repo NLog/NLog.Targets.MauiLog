@@ -44,17 +44,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
-          key: windows-nuget-maui-${{ hashFiles('global.json', 'maui.check.manifest.json', 'src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj') }}
+          key: windows-nuget-maui-${{ hashFiles('global.json', 'src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj') }}
           restore-keys: windows-nuget-maui-
 
       - name: Install MAUI workloads
         run: dotnet workload install maui macos android ios maccatalyst --skip-manifest-update
-
-      - name: Install MAUI check
-        run: dotnet tool install -g Redth.Net.Maui.Check
-
-      - name: Check MAUI workloads
-        run: maui-check --fix --non-interactive --manifest maui.check.manifest.json
 
       - name: Restore
         shell: pwsh
