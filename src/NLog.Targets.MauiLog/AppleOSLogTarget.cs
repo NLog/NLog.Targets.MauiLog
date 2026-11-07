@@ -2,6 +2,7 @@
 
 using System;
 using NLog.Layouts;
+using NLog.Targets.MauiLog;
 
 namespace NLog.Targets
 {
@@ -14,6 +15,8 @@ namespace NLog.Targets
 #endif
     public class AppleOSLogTarget : TargetWithLayoutHeaderAndFooter
     {
+        private readonly AppleOSLogTargetWriter _logWriter;
+
         /// <summary>
         /// Not used at the moment
         /// </summary>
@@ -25,6 +28,7 @@ namespace NLog.Targets
         public AppleOSLogTarget()
         {
             Layout = "${logger}|${message:withException=true:exceptionSeparator=|}";
+            _logWriter = AppleOSLogTargetWriter.Create(new AppleOSLogAdapter());
         }
 
         /// <inheritdoc/>
@@ -64,21 +68,19 @@ namespace NLog.Targets
         private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
         {
             var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
-            if (logEvent.Level == LogLevel.Trace || logEvent.Level == LogLevel.Debug)
+            _logWriter.DebugWriteLine(logEvent.Level, logMessage);
+        }
+
+        private sealed class AppleOSLogAdapter : IAppleOSLog
+        {
+            public void Log(AppleOSLogLevel level, string message)
             {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Debug, logMessage);
-            }
-            else if (logEvent.Level == LogLevel.Info)
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Info, logMessage);
-            }
-            else if (logEvent.Level == LogLevel.Warn || logEvent.Level == LogLevel.Error)
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Error, logMessage);
-            }
-            else
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Fault, logMessage);
+                var nativeLevel = level == AppleOSLogLevel.Debug ? CoreFoundation.OSLogLevel.Debug
+                    : level == AppleOSLogLevel.Info ? CoreFoundation.OSLogLevel.Info
+                    : level == AppleOSLogLevel.Error ? CoreFoundation.OSLogLevel.Error
+                    : CoreFoundation.OSLogLevel.Fault;
+
+                CoreFoundation.OSLog.Default.Log(nativeLevel, message);
             }
         }
     }
