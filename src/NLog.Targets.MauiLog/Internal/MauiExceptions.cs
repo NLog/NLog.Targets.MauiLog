@@ -11,10 +11,7 @@ namespace NLog.Targets.MauiLog
         {
             // General .NET unhandled-exception notification.
             // Some platforms have additional exception handling mechanisms.
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
-            {
-                UnhandledException?.Invoke(sender, args);
-            };
+            AppDomain.CurrentDomain.UnhandledException += RaiseUnhandledException;
 
 #if __ANDROID__
             // Android provides a separate notification for unhandled managed
@@ -25,10 +22,17 @@ namespace NLog.Targets.MauiLog
             Android.Runtime.AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
             {
 #pragma warning disable CS8604 // Possible null reference argument for parameter 'sender'
-                UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, true));
+                RaiseUnhandledException(sender, new UnhandledExceptionEventArgs(args.Exception, true));
 #pragma warning restore CS8604 // Possible null reference argument for parameter 'sender'
             };
 #endif
+        }
+
+        internal static void RaiseUnhandledException(object? sender, UnhandledExceptionEventArgs args)
+        {
+#pragma warning disable CS8604 // Possible null reference argument for parameter 'sender'
+            UnhandledException?.Invoke(sender, args);
+#pragma warning restore CS8604 // Possible null reference argument for parameter 'sender'
         }
     }
 }

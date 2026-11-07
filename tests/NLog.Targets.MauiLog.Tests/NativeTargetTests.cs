@@ -33,10 +33,13 @@ public class NativeTargetTests
     [MemberData(nameof(AndroidLogLevels))]
     public void AndroidAdapter_MapsLevelsAndPreservesMessage(LogLevel level, string expectedLevel)
     {
+        // Arrange
         Android.Util.Log.Reset();
 
+        // Act
         new AndroidLogger().Log(level, "category", "message", null);
 
+        // Assert
         Assert.Equal(expectedLevel, Android.Util.Log.LastMethod);
         Assert.Equal("category", Android.Util.Log.LastCategory);
         Assert.Equal("message", Android.Util.Log.LastMessage);
@@ -46,12 +49,20 @@ public class NativeTargetTests
     [Fact]
     public void AndroidAdapter_UnwrapsSingleExceptionAndFlattensMultipleExceptions()
     {
+        // Arrange
         var adapter = new AndroidLogger();
         var inner = new InvalidOperationException("single");
+
+        // Act
         adapter.Log(LogLevel.Error, "category", "message", new AggregateException(inner));
+
+        // Assert
         Assert.Same(inner, Android.Util.Log.LastThrowable!.SourceException);
 
+        // Act
         adapter.Log(LogLevel.Error, "category", "message", new AggregateException(new Exception("one"), new Exception("two")));
+
+        // Assert
         var flattened = Assert.IsType<AggregateException>(Android.Util.Log.LastThrowable!.SourceException);
         Assert.Equal(2, flattened.InnerExceptions.Count);
     }
@@ -59,6 +70,7 @@ public class NativeTargetTests
     [Fact]
     public void AndroidTarget_UsesInjectedLogForOpenWriteAndClose()
     {
+        // Arrange
         using var logFactory = new LogFactory();
         var log = new RecordingNativeLog();
         var target = AndroidUtilLogTarget.Create(log);
@@ -68,10 +80,13 @@ public class NativeTargetTests
         var configuration = new LoggingConfiguration();
         configuration.AddTarget("android", target);
         configuration.AddRuleForAllLevels(target);
+
+        // Act
         logFactory.Configuration = configuration;
         logFactory.GetLogger("unit-test").Info("body");
         logFactory.Shutdown();
 
+        // Assert
         Assert.Collection(log.AndroidCalls,
             call => Assert.Equal(("Info", "Starting", "header"), (call.Level.ToString(), call.Category, call.Message)),
             call => Assert.Equal(("Info", "unit-test", "body"), (call.Level.ToString(), call.Category, call.Message)),
@@ -82,10 +97,13 @@ public class NativeTargetTests
     [MemberData(nameof(AppleLogLevels))]
     public void AppleAdapter_MapsLevelsAndPreservesMessage(LogLevel level, string expectedLevel)
     {
+        // Arrange
         CoreFoundation.OSLog.Default.Reset();
 
+        // Act
         new AppleOSLogger().Log(level, "message");
 
+        // Assert
         Assert.Equal(expectedLevel, CoreFoundation.OSLog.Default.LastLevel.ToString());
         Assert.Equal("message", CoreFoundation.OSLog.Default.LastMessage);
     }
@@ -93,6 +111,7 @@ public class NativeTargetTests
     [Fact]
     public void AppleTarget_UsesInjectedLogForOpenWriteAndClose()
     {
+        // Arrange
         using var logFactory = new LogFactory();
         var log = new RecordingNativeLog();
         var target = AppleOSLogTarget.Create(log);
@@ -103,10 +122,13 @@ public class NativeTargetTests
         var configuration = new LoggingConfiguration();
         configuration.AddTarget("apple", target);
         configuration.AddRuleForAllLevels(target);
+
+        // Act
         logFactory.Configuration = configuration;
         logFactory.GetLogger("unit-test").Info("body");
         logFactory.Shutdown();
 
+        // Assert
         Assert.Collection(log.AppleCalls,
             call => Assert.Equal(("Info", "header"), (call.Level.ToString(), call.Message)),
             call => Assert.Equal(("Info", "body"), (call.Level.ToString(), call.Message)),
