@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DefineConstants>$(DefineConstants);__ANDROID__;__APPLE__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="10.1.0" PrivateAssets="all" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="3.0.5" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj" GlobalPropertiesToRemove="DefineConstants" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <!-- These sources are linked so we could test with .NET 10 without requiring platform-specific workloads -->
+    <Compile Include="../../src/NLog.Targets.MauiLog/AndroidUtilLogTarget.cs" Link="PlatformTargets/AndroidUtilLogTarget.cs" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/AppleOSLogTarget.cs" Link="PlatformTargets/AppleOSLogTarget.cs" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/Internal/Android/AndroidLogger.cs" Link="PlatformTargets/AndroidLogger.cs" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/Internal/AppleOs/AppleOSLogger.cs" Link="PlatformTargets/AppleOSLogger.cs" />
+  </ItemGroup>
+
+</Project>

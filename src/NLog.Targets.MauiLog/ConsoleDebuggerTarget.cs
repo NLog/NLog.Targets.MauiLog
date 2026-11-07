@@ -30,7 +30,6 @@ namespace NLog.Targets
         protected override void InitializeTarget()
         {
             base.InitializeTarget();
-
             if (Header != null)
             {
                 var logEvent = LogEventInfo.CreateNullEvent();

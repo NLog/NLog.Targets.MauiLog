@@ -2,6 +2,7 @@
 
 using System;
 using NLog.Layouts;
+using NLog.Targets.MauiLog;
 
 namespace NLog.Targets
 {
@@ -14,6 +15,8 @@ namespace NLog.Targets
 #endif
     public class AndroidUtilLogTarget : TargetWithLayoutHeaderAndFooter
     {
+        private readonly IAndroidLogger _androidLog;
+
         /// <summary>
         /// Source of a log message
         /// </summary>
@@ -23,10 +26,18 @@ namespace NLog.Targets
         /// Initializes a new instance of the <see cref="AndroidUtilLogTarget"/> class.
         /// </summary>
         public AndroidUtilLogTarget()
+            : this(new AndroidLogger())
         {
+        }
+
+        private AndroidUtilLogTarget(IAndroidLogger androidLog)
+        {
+            _androidLog = androidLog;
             Layout = "${message}";
             Category = "${logger}";
         }
+
+        internal static AndroidUtilLogTarget Create(IAndroidLogger androidLog) => new(androidLog);
 
         /// <inheritdoc/>
         protected override void InitializeTarget()
@@ -66,70 +77,9 @@ namespace NLog.Targets
         {
             var message = RenderLogEvent(layout, logEvent) ?? string.Empty;
             var category = RenderLogEvent(Category, logEvent) ?? string.Empty;
-
-            Java.Lang.Throwable? throwable = null;
-            if (logEvent.Exception != null)
-            {
-                if (logEvent.Exception is AggregateException aggregateException)
-                {
-                    if (aggregateException.InnerExceptions.Count == 1 && !(aggregateException.InnerExceptions[0] is AggregateException))
-                    {
-                        throwable = Java.Lang.Throwable.FromException(aggregateException.InnerExceptions[0]);
-                    }
-                    else
-                    {
-                        throwable = Java.Lang.Throwable.FromException(aggregateException.Flatten());
-                    }
-                }
-                else
-                {
-                    throwable = Java.Lang.Throwable.FromException(logEvent.Exception);
-                }
-            }
-
-            if (logEvent.Level == LogLevel.Trace)
-            {
-                if (throwable is null)
-                    Android.Util.Log.Verbose(category, message);
-                else
-                    Android.Util.Log.Verbose(category, throwable, message);
-            }
-            else if (logEvent.Level == LogLevel.Debug)
-            {
-                if (throwable is null)
-                    Android.Util.Log.Debug(category, message);
-                else
-                    Android.Util.Log.Debug(category, throwable, message);
-            }
-            else if (logEvent.Level == LogLevel.Info)
-            {
-                if (throwable is null)
-                    Android.Util.Log.Info(category, message);
-                else
-                    Android.Util.Log.Info(category, throwable, message);
-            }
-            else if (logEvent.Level == LogLevel.Warn)
-            {
-                if (throwable is null)
-                    Android.Util.Log.Warn(category, message);
-                else
-                    Android.Util.Log.Warn(category, throwable, message);
-            }
-            else if (logEvent.Level == LogLevel.Error)
-            {
-                if (throwable is null)
-                    Android.Util.Log.Error(category, message);
-                else
-                    Android.Util.Log.Error(category, throwable, message);
-            }
-            else
-            {
-                if (throwable is null)
-                    Android.Util.Log.Wtf(category, message);
-                else
-                    Android.Util.Log.Wtf(category, throwable, message);
-            }
+            _androidLog.Log(logEvent.Level, category, message, logEvent.Exception);
         }
+
     }
 }
 

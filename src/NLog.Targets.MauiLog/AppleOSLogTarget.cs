@@ -2,6 +2,7 @@
 
 using System;
 using NLog.Layouts;
+using NLog.Targets.MauiLog;
 
 namespace NLog.Targets
 {
@@ -14,6 +15,8 @@ namespace NLog.Targets
 #endif
     public class AppleOSLogTarget : TargetWithLayoutHeaderAndFooter
     {
+        private readonly IAppleOSLogger _appleOSLog;
+
         /// <summary>
         /// Not used at the moment
         /// </summary>
@@ -23,9 +26,17 @@ namespace NLog.Targets
         /// Initializes a new instance of the <see cref="AppleOSLogTarget"/> class.
         /// </summary>
         public AppleOSLogTarget()
+            : this(new AppleOSLogger())
         {
+        }
+
+        private AppleOSLogTarget(IAppleOSLogger appleOSLog)
+        {
+            _appleOSLog = appleOSLog;
             Layout = "${logger}|${message:withException=true:exceptionSeparator=|}";
         }
+
+        internal static AppleOSLogTarget Create(IAppleOSLogger appleOSLog) => new(appleOSLog);
 
         /// <inheritdoc/>
         protected override void InitializeTarget()
@@ -64,23 +75,9 @@ namespace NLog.Targets
         private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
         {
             var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
-            if (logEvent.Level == LogLevel.Trace || logEvent.Level == LogLevel.Debug)
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Debug, logMessage);
-            }
-            else if (logEvent.Level == LogLevel.Info)
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Info, logMessage);
-            }
-            else if (logEvent.Level == LogLevel.Warn || logEvent.Level == LogLevel.Error)
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Error, logMessage);
-            }
-            else
-            {
-                CoreFoundation.OSLog.Default.Log(CoreFoundation.OSLogLevel.Fault, logMessage);
-            }
+            _appleOSLog.Log(logEvent.Level, logMessage);
         }
+
     }
 }
 
