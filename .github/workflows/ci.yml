@@ -31,6 +31,35 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.PROJECT }} --configuration Release --no-restore --framework net10.0
 
+  test:
+    name: ${{ matrix.name }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            name: Test (Windows)
+            upload_coverage: false
+          - os: ubuntu-latest
+            name: Test (Ubuntu)
+            upload_coverage: true
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Test
+        run: dotnet test tests/NLog.Targets.MauiLog.Tests/NLog.Targets.MauiLog.Tests.csproj --configuration Release --collect:"XPlat Code Coverage" --logger GitHubActions
+
+      - name: Upload coverage to Codecov
+        if: matrix.upload_coverage
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # https://github.com/codecov/codecov-action/releases/tag/v7.1.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: tests/**/TestResults/**/coverage.cobertura.xml
+          fail_ci_if_error: true
+
   pack:
     name: Build & package (Windows)
     runs-on: windows-latest
@@ -90,7 +119,7 @@ jobs:
 
   publish:
     name: Publish NuGet package
-    needs: [build, pack]
+    needs: [build, test, pack]
     if: >-
       (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
       (github.event_name == 'workflow_dispatch' && inputs.force_nuget_publish)
