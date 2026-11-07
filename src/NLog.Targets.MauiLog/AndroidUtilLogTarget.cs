@@ -15,7 +15,7 @@ namespace NLog.Targets
 #endif
     public class AndroidUtilLogTarget : TargetWithLayoutHeaderAndFooter
     {
-        private readonly AndroidLogTargetWriter _logWriter;
+        private readonly IAndroidLogger _androidLog;
 
         /// <summary>
         /// Source of a log message
@@ -26,11 +26,18 @@ namespace NLog.Targets
         /// Initializes a new instance of the <see cref="AndroidUtilLogTarget"/> class.
         /// </summary>
         public AndroidUtilLogTarget()
+            : this(new AndroidLogger())
         {
+        }
+
+        private AndroidUtilLogTarget(IAndroidLogger androidLog)
+        {
+            _androidLog = androidLog;
             Layout = "${message}";
             Category = "${logger}";
-            _logWriter = AndroidLogTargetWriter.Create(new AndroidLogAdapter());
         }
+
+        internal static AndroidUtilLogTarget Create(IAndroidLogger androidLog) => new(androidLog);
 
         /// <inheritdoc/>
         protected override void InitializeTarget()
@@ -70,59 +77,9 @@ namespace NLog.Targets
         {
             var message = RenderLogEvent(layout, logEvent) ?? string.Empty;
             var category = RenderLogEvent(Category, logEvent) ?? string.Empty;
-            _logWriter.DebugWriteLine(logEvent.Level, category, message, logEvent.Exception);
+            _androidLog.Log(logEvent.Level, category, message, logEvent.Exception);
         }
 
-        private sealed class AndroidLogAdapter : IAndroidLog
-        {
-            public void Log(AndroidLogLevel level, string category, string message, Exception? exception)
-            {
-                var throwable = exception is null ? null : Java.Lang.Throwable.FromException(exception);
-
-                if (level == AndroidLogLevel.Verbose)
-                {
-                    if (throwable is null)
-                        Android.Util.Log.Verbose(category, message);
-                    else
-                        Android.Util.Log.Verbose(category, throwable, message);
-                }
-                else if (level == AndroidLogLevel.Debug)
-                {
-                    if (throwable is null)
-                        Android.Util.Log.Debug(category, message);
-                    else
-                        Android.Util.Log.Debug(category, throwable, message);
-                }
-                else if (level == AndroidLogLevel.Info)
-                {
-                    if (throwable is null)
-                        Android.Util.Log.Info(category, message);
-                    else
-                        Android.Util.Log.Info(category, throwable, message);
-                }
-                else if (level == AndroidLogLevel.Warn)
-                {
-                    if (throwable is null)
-                        Android.Util.Log.Warn(category, message);
-                    else
-                        Android.Util.Log.Warn(category, throwable, message);
-                }
-                else if (level == AndroidLogLevel.Error)
-                {
-                    if (throwable is null)
-                        Android.Util.Log.Error(category, message);
-                    else
-                        Android.Util.Log.Error(category, throwable, message);
-                }
-                else
-                {
-                    if (throwable is null)
-                        Android.Util.Log.Wtf(category, message);
-                    else
-                        Android.Util.Log.Wtf(category, throwable, message);
-                }
-            }
-        }
     }
 }
 

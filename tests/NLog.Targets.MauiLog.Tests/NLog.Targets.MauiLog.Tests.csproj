@@ -6,6 +6,7 @@
     <IsTestProject>true</IsTestProject>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DefineConstants>$(DefineConstants);__ANDROID__;__APPLE__</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj" />
+    <ProjectReference Include="../../src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj" GlobalPropertiesToRemove="DefineConstants" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/AndroidUtilLogTarget.cs" Link="PlatformTargets/AndroidUtilLogTarget.cs" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/AppleOSLogTarget.cs" Link="PlatformTargets/AppleOSLogTarget.cs" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/Internal/Android/AndroidLogger.cs" Link="PlatformTargets/AndroidLogger.cs" />
+    <Compile Include="../../src/NLog.Targets.MauiLog/Internal/AppleOs/AppleOSLogger.cs" Link="PlatformTargets/AppleOSLogger.cs" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ namespace NLog.Targets
 #endif
     public class AppleOSLogTarget : TargetWithLayoutHeaderAndFooter
     {
-        private readonly AppleOSLogTargetWriter _logWriter;
+        private readonly IAppleOSLogger _appleOSLog;
 
         /// <summary>
         /// Not used at the moment
@@ -26,10 +26,17 @@ namespace NLog.Targets
         /// Initializes a new instance of the <see cref="AppleOSLogTarget"/> class.
         /// </summary>
         public AppleOSLogTarget()
+            : this(new AppleOSLogger())
         {
-            Layout = "${logger}|${message:withException=true:exceptionSeparator=|}";
-            _logWriter = AppleOSLogTargetWriter.Create(new AppleOSLogAdapter());
         }
+
+        private AppleOSLogTarget(IAppleOSLogger appleOSLog)
+        {
+            _appleOSLog = appleOSLog;
+            Layout = "${logger}|${message:withException=true:exceptionSeparator=|}";
+        }
+
+        internal static AppleOSLogTarget Create(IAppleOSLogger appleOSLog) => new(appleOSLog);
 
         /// <inheritdoc/>
         protected override void InitializeTarget()
@@ -68,21 +75,9 @@ namespace NLog.Targets
         private void DebugWriteLine(Layout layout, LogEventInfo logEvent)
         {
             var logMessage = RenderLogEvent(layout, logEvent) ?? string.Empty;
-            _logWriter.DebugWriteLine(logEvent.Level, logMessage);
+            _appleOSLog.Log(logEvent.Level, logMessage);
         }
 
-        private sealed class AppleOSLogAdapter : IAppleOSLog
-        {
-            public void Log(AppleOSLogLevel level, string message)
-            {
-                var nativeLevel = level == AppleOSLogLevel.Debug ? CoreFoundation.OSLogLevel.Debug
-                    : level == AppleOSLogLevel.Info ? CoreFoundation.OSLogLevel.Info
-                    : level == AppleOSLogLevel.Error ? CoreFoundation.OSLogLevel.Error
-                    : CoreFoundation.OSLogLevel.Fault;
-
-                CoreFoundation.OSLog.Default.Log(nativeLevel, message);
-            }
-        }
     }
 }
 
