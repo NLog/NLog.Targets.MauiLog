@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Test
-        run: dotnet test tests/NLog.Targets.MauiLog.Tests/NLog.Targets.MauiLog.Tests.csproj --configuration Release --collect:"XPlat Code Coverage" --logger GitHubActions
+        run: dotnet test tests/NLog.Targets.MauiLog.Tests/NLog.Targets.MauiLog.Tests.csproj --configuration Release --settings tests/NLog.Targets.MauiLog.Tests/coverlet.runsettings --collect:"XPlat Code Coverage" --logger GitHubActions
 
       - name: Upload coverage to Codecov
         if: matrix.upload_coverage
