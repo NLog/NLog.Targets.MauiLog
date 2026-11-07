@@ -19,6 +19,11 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/NLog.Targets.MauiLog/NLog.Targets.MauiLog.csproj" GlobalPropertiesToRemove="DefineConstants" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
+    <!-- These sources are linked so we could test with .NET 10 without requiring platform-specific workloads -->
     <Compile Include="../../src/NLog.Targets.MauiLog/AndroidUtilLogTarget.cs" Link="PlatformTargets/AndroidUtilLogTarget.cs" />
     <Compile Include="../../src/NLog.Targets.MauiLog/AppleOSLogTarget.cs" Link="PlatformTargets/AppleOSLogTarget.cs" />
     <Compile Include="../../src/NLog.Targets.MauiLog/Internal/Android/AndroidLogger.cs" Link="PlatformTargets/AndroidLogger.cs" />
