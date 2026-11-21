@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>10.2.1</VersionPrefix>
-    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net10.0</TargetFrameworks>
+    <VersionPrefix>11.2.2</VersionPrefix>
+    <TargetFrameworks Condition="'$(TargetFrameworks)' == ''">net11.0</TargetFrameworks>
 
     <Title>NLog.Targets.MauiLog for $(TargetFramework)</Title>
     <AssemblyTitle>$(Title)</AssemblyTitle>
@@ -16,7 +16,8 @@
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-- Updated NLog v6.2 to reduce AOT build file size.
+- Version 11 for NET11
+- Updated NLog v6.2.2
 
 See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targets for MAUI
     </PackageReleaseNotes>
@@ -55,7 +56,7 @@ See https://github.com/NLog/NLog.Targets.MauiLog for documentation of NLog targe
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="6.2.0" />
+    <PackageReference Include="NLog" Version="6.2.2" />
   </ItemGroup>
 
 </Project>

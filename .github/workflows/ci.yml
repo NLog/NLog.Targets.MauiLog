@@ -29,7 +29,7 @@ jobs:
         run: dotnet restore ${{ env.PROJECT }}
 
       - name: Build
-        run: dotnet build ${{ env.PROJECT }} --configuration Release --no-restore --framework net10.0
+        run: dotnet build ${{ env.PROJECT }} --configuration Release --no-restore --framework net11.0
 
   pack:
     name: Build & package (Windows)
@@ -53,7 +53,7 @@ jobs:
       - name: Restore
         shell: pwsh
         env:
-          TARGET_FRAMEWORKS: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
+          TARGET_FRAMEWORKS: net11.0;net11.0-ios;net11.0-macos;net11.0-android;net11.0-maccatalyst
         run: $env:TargetFrameworks = $env:TARGET_FRAMEWORKS; dotnet restore $env:PROJECT
 
       - name: Determine version suffix
@@ -76,7 +76,7 @@ jobs:
         shell: pwsh
         env:
           VERSION_SUFFIX: ${{ steps.version.outputs.suffix }}
-          TARGET_FRAMEWORKS: net10.0;net10.0-ios;net10.0-macos;net10.0-android;net10.0-maccatalyst
+          TARGET_FRAMEWORKS: net11.0;net11.0-ios;net11.0-macos;net11.0-android;net11.0-maccatalyst
         run: $env:TargetFrameworks = $env:TARGET_FRAMEWORKS; dotnet pack $env:PROJECT --no-restore --configuration Release --output artifacts -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:EmbedUntrackedSources=true -p:ContinuousIntegrationBuild=true -p:PublishRepositoryUrl=true --version-suffix "$env:VERSION_SUFFIX"
 
       - name: Upload NuGet package
